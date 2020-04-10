@@ -40,7 +40,7 @@ const orm = {
         queryString += "VALUES (";      
         queryString += printQuestionMarks(vals.length);
         queryString += ") ";
-        console.log(queryString);
+        // console.log(queryString);
 
         connection.query(queryString, vals, function(err, res) {
             if (err) {
@@ -56,7 +56,7 @@ const orm = {
         queryString += objToSql(objColVals);
         queryString += " WHERE ";
         queryString += condition;
-        console.log(queryString);
+        // console.log(queryString);
 
         connection.query(queryString, function(err, res) {
             if (err) {
@@ -65,5 +65,20 @@ const orm = {
             cb(res);
         });
     },
-    
-}
+    delete: function(table, condition, cb) {
+        const queryString = "DELETE FROM " + table;
+        
+        queryString += " WHERE ";
+        queryString += condition;
+        // console.log(queryString);
+
+        connection.query(queryString, function(err, res) {
+            if (err) {
+                throw err;
+            }
+            cb(res);
+        });
+    }
+};
+
+module.exports = orm;
