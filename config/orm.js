@@ -21,3 +21,33 @@ function objToSql(ob) {
     };
     return arr.toString();
 };
+
+const orm = {
+    all: function(tableInput, cb) {
+        const queryString = "SELECT * FROM " + tableInput + ";";
+        connection.query(queryString, function(err, res) {
+            if (err) {
+                throw err;
+            }
+            cb(res);
+        });
+    },
+    create: function(table, cols, vals, cb) {
+        const queryString = "INSERT INTO " + table;
+        queryString += " (";
+        queryString += cols.toString();
+        queryString += ") ";
+        queryString += "VALUES (";      
+        queryString += printQuestionMarks(vals.length);
+        queryString += ") ";
+        console.log(queryString);
+
+        connection.query(queryString, vals, function(err, res) {
+            if (err) {
+                throw err;
+            }
+            cb(result);
+        });
+    },
+    
+}
