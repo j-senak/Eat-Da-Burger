@@ -22,9 +22,9 @@ function objToSql(ob) {
     return arr.toString();
 };
 
-const orm = {
+let orm = {
     selectAll: function(tableInput, cb) {
-        const queryString = "SELECT * FROM " + tableInput + ";";
+        let queryString = "SELECT * FROM " + tableInput + ";";
         connection.query(queryString, function(err, res) {
             if (err) {
                 throw err;
@@ -33,7 +33,7 @@ const orm = {
         });
     },
     insertOne: function(table, cols, vals, cb) {
-        const queryString = "INSERT INTO " + table;
+        let queryString = "INSERT INTO " + table;
         queryString += " (";
         queryString += cols.toString();
         queryString += ") ";
@@ -46,11 +46,11 @@ const orm = {
             if (err) {
                 throw err;
             }
-            cb(result);
+            cb(res);
         });
     },
     updateOne: function(table, objColVals, condition, cb) {
-        const queryString = "UPDATE " + table;
+        let queryString = "UPDATE " + table;
 
         queryString += " SET ";
         queryString += objToSql(objColVals);
@@ -65,21 +65,6 @@ const orm = {
             cb(res);
         });
     },
-    // Added for later functionality and maintain CRUD.
-    deleteOne: function(table, condition, cb) {
-        const queryString = "DELETE FROM " + table;
-        
-        queryString += " WHERE ";
-        queryString += condition;
-        // console.log(queryString);
-
-        connection.query(queryString, function(err, res) {
-            if (err) {
-                throw err;
-            }
-            cb(res);
-        });
-    }
 };
 
 module.exports = orm;
